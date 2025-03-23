@@ -1,0 +1,37 @@
+#defines two services where each service is a separate container
+services:
+  app:
+    image: my-calculator #docker image to use or build
+    build: . #path to dockerfile to build an image
+    volumes:
+      - .:/app #mounts local directory into container
+    ports: #maps ports (host:container)
+      - "5050:5050"
+    depends_on: #ensures one container starts before the other
+      - calculator_db
+    networks: #assigns the container to a Docker network
+      - mynetwork
+    environment: #sets the env variables
+      - FLASK_ENV=development
+  
+  calculator_db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=calculator
+      - POSTGRES_PASSWORD=calculator
+      - POSTGRES_DB=app_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+  
+networks: #allows containers to communicate with each other
+  mynetwork:
+    driver: bridge #type of network (bridge, overlay...)
+
+volumes: #store data persistently so it's not lost when containers stop
+  postgres_data:
+    driver: local

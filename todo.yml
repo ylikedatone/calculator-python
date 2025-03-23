@@ -1,5 +1,6 @@
 ✅ Step 1: Set up PostgreSQL in Docker (if not done yet). DONE
 ✅ Step 2: Install psycopg2 and set up a database connection in Flask.
+    step 2.a: need to connect db + app via dockercompose file DONE
 ✅ Step 3: Create a table for calculations.
 ✅ Step 4: Modify /calculate to store results in PostgreSQL.
 ✅ Step 5: Create a /history route to fetch past calculations.
